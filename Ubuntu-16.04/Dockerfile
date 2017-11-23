@@ -9,7 +9,8 @@ RUN cd /usr/local/src/gcc-7.2.0 && \
     ./contrib/download_prerequisites && \
     mkdir /usr/local/src/gcc-7.2.0_build && \
     cd /usr/local/src/gcc-7.2.0_build && \
-    /usr/local/src/gcc-7.2.0/configure --prefix=/opt/gcc-7.2.0 --enable-languages=c,c++
+    /usr/local/src/gcc-7.2.0/configure --prefix=/opt/gcc-7.2.0 --enable-languages=c,c++,fortran
 RUN cd /usr/local/src/gcc-7.2.0_build && \
     make -j 2 && \
-    make install
+    make install && \
+    rm -rf /usr/local/src/gcc-7.2.0_build
