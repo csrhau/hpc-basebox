@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 LABEL maintainer="Stephen Roberts"
 RUN apt-get update && \
     apt-get install -y build-essential curl libgmp-dev libmpc-dev libmpfr-dev \
-                       gcc-multilib
+                       gcc-multilib numactl
 # Build GNU compilers. Note: For final setup, this should also include 6.3.0
 RUN curl -SL ftp://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.gz | tar -xzC /usr/local/src && \
     cd /usr/local/src/gcc-7.2.0 && \
