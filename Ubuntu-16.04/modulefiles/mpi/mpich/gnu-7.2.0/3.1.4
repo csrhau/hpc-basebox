@@ -1,14 +1,14 @@
 #%Module
 
-module-whatis  "Load openmpi-1.10.2_gnu-5.4.0"
+module-whatis  "Load mpich-3.1.4_gnu-7.2.0"
 conflict mpi
-module load compilers/gnu/5.4.0-system
+module load compilers/gnu/7.2.0
 
-set     mpi_dir                 /opt/openmpi-1.10.2_gnu-5.4.0
+set     mpi_dir                 /opt/mpich-3.1.4_gnu-7.2.0
 
-setenv  MPI_FULL_NAME           openmpi-1.10.2_gnu-5.4.0
-setenv  MPI_NAME                openmpi
-setenv  MPI_VER                 1.10.2
+setenv  MPI_FULL_NAME           mpich-3.1.4_gnu-7.2.0
+setenv  MPI_NAME                mpich
+setenv  MPI_VER                 3.1.4
 setenv  MPI_INSTALL_PATH        ${mpi_dir}
 setenv  MPI_HOME                ${mpi_dir}
 setenv  MPIEXEC                 mpiexec
