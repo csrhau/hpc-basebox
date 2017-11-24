@@ -1,11 +1,10 @@
 FROM ubuntu:16.04
 LABEL maintainer="Stephen Roberts"
 RUN apt-get update && \
-    apt-get install -y build-essential curl libgmp-dev libmpc-dev libmpfr-dev 
+    apt-get install -y build-essential curl libgmp-dev libmpc-dev libmpfr-dev \
+                       gcc-multilib
 RUN curl -SL ftp://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.gz | tar -xzC /usr/local/src && \
-    curl -SL http://www.mpich.org/static/downloads/3.2.1/mpich-3.2.1.tar.gz | tar -xzC /usr/local/src && \
-    curl -SL https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.0.tar.gz | tar -xzC /usr/local/src 
-RUN cd /usr/local/src/gcc-7.2.0 && \
+    cd /usr/local/src/gcc-7.2.0 && \
     ./contrib/download_prerequisites && \
     mkdir /usr/local/src/gcc-7.2.0_build && \
     cd /usr/local/src/gcc-7.2.0_build && \
@@ -14,3 +13,6 @@ RUN cd /usr/local/src/gcc-7.2.0_build && \
     make -j 2 && \
     make install && \
     rm -rf /usr/local/src/gcc-7.2.0_build
+
+#RUN curl -SL http://www.mpich.org/static/downloads/3.2.1/mpich-3.2.1.tar.gz | tar -xzC /usr/local/src && \
+#    curl -SL https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.0.tar.gz | tar -xzC /usr/local/src 
