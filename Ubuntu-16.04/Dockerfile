@@ -24,7 +24,7 @@ RUN curl -SL http://www.mpich.org/static/downloads/3.2.1/mpich-3.2.1.tar.gz | ta
 # Compile MPI Libraries - n.b. would have module support here
 RUN mkdir /usr/local/src/mpich-3.2.1_GCCVER_build && \
     cd /usr/local/src/mpich-3.2.1_GCCVER_build && \
-    /usr/local/src/mpich-3.2.1/configure --prefix=/opt/mpich-3.2.1_GCCVER –enable-debuginfo && \
+    /usr/local/src/mpich-3.2.1/configure --prefix=/opt/mpich-3.2.1_GCCVER –-enable-debuginfo && \
     make -j 2 && \
     make install && \
     rm -rf /usr/local/src/mpich-3.2.1_GCCVER_build 
