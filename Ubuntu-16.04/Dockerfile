@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 LABEL maintainer="Stephen Roberts" 
 RUN apt-get update && \
     apt-get install -y build-essential curl libgmp-dev libmpc-dev libmpfr-dev \
-                       gcc-multilib numactl
+                       gcc-multilib numactl gfortran
 # TODO Install Environment Modules - remember system compiler is a module
 
 # Build GNU compilers. Note: For final setup, this should also include 6.3.0
