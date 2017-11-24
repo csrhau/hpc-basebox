@@ -15,9 +15,21 @@ ENV MODULESHOME=/opt/modules-4.0.0/ \
     MODULEPATH=/opt/modules-4.0.0/modulefiles:/opt/modulefiles
 COPY modulefiles /opt/modulefiles
 
+# Build GNU 7.2.0 compilers
+RUN curl -SL ftp://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.gz | tar -xzC /usr/local/src && \
+    cd /usr/local/src/gcc-7.2.0 && \
+    ./contrib/download_prerequisites && \
+    mkdir /usr/local/src/gcc-7.2.0_build && \
+    cd /usr/local/src/gcc-7.2.0_build && \
+    /usr/local/src/gcc-7.2.0/configure --prefix=/opt/gcc-7.2.0 --enable-languages=c,c++,fortran && \
+    make -j 2 && \
+    make install && \
+    rm -rf /usr/local/src/gcc-7.2.0_build
+
 # Download MPI Libraries - Separate download to allow compiler/mpi combinations
 RUN curl -SL http://www.mpich.org/static/downloads/3.2.1/mpich-3.2.1.tar.gz | tar -xzC /usr/local/src && \
-    curl -SL https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.0.tar.gz | tar -xzC /usr/local/src 
+    curl -SL https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.0.tar.gz | tar -xzC /usr/local/src && \
+    curl -SL https://www.open-mpi.org/software/ompi/v2.1/downloads/openmpi-2.1.0.tar.gz | tar -xzC /usr/local/src 
 
 # Compile MPI Libraries for system compilers
 RUN . /opt/modules-4.0.0/init/sh && \
@@ -36,17 +48,14 @@ RUN . /opt/modules-4.0.0/init/sh && \
     make -j 2 && \
     make install && \
     rm -rf /usr/local/src/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER}_build
-
-# Build GNU 7.2.0 compilers
-RUN curl -SL ftp://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.gz | tar -xzC /usr/local/src && \
-    cd /usr/local/src/gcc-7.2.0 && \
-    ./contrib/download_prerequisites && \
-    mkdir /usr/local/src/gcc-7.2.0_build && \
-    cd /usr/local/src/gcc-7.2.0_build && \
-    /usr/local/src/gcc-7.2.0/configure --prefix=/opt/gcc-7.2.0 --enable-languages=c,c++,fortran && \
+RUN . /opt/modules-4.0.0/init/sh && \
+    module load compilers/gnu/5.4.0-system && \
+    mkdir /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build && \
+    cd /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build && \
+    /usr/local/src/openmpi-2.1.2/configure --prefix=/opt/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER} && \
     make -j 2 && \
     make install && \
-    rm -rf /usr/local/src/gcc-7.2.0_build
+    rm -rf /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build
 
 # Compile MPI Libraries for GNU 7.2.0
 RUN . /opt/modules-4.0.0/init/sh && \
@@ -65,3 +74,11 @@ RUN . /opt/modules-4.0.0/init/sh && \
     make -j 2 && \
     make install && \
     rm -rf /usr/local/src/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER}_build
+RUN . /opt/modules-4.0.0/init/sh && \
+    module load compilers/gnu/7.2.0 && \
+    mkdir /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build && \
+    cd /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build && \
+    /usr/local/src/openmpi-2.1.2/configure --prefix=/opt/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER} && \
+    make -j 2 && \
+    make install && \
+    rm -rf /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build
