@@ -13,18 +13,20 @@ RUN curl -SL http://sourceforge.net/projects/modules/files/Modules/modules-4.0.0
 ENV MODULESHOME=/opt/modules-4.0.0/ \
     MODULE_VERSION=4.0.0 \
     MODULEPATH=/opt/modules-4.0.0/modulefiles:/opt/modulefiles
-COPY modulefiles /opt/modulefiles
 
-# Build GNU 7.2.0 compilers
+# Build & Install Compilers
+# GNU 7.2.0
 RUN curl -SL ftp://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.gz | tar -xzC /usr/local/src && \
     cd /usr/local/src/gcc-7.2.0 && \
     ./contrib/download_prerequisites && \
     mkdir /usr/local/src/gcc-7.2.0_build && \
     cd /usr/local/src/gcc-7.2.0_build && \
     /usr/local/src/gcc-7.2.0/configure --prefix=/opt/gcc-7.2.0 --enable-languages=c,c++,fortran && \
-    make -j 2 && \
+    make -j $(nproc) && \
     make install && \
     rm -rf /usr/local/src/gcc-7.2.0_build
+# Install Compiler Environment modules
+COPY modulefiles/compilers /opt/modulefiles/compilers
 
 # Compile MPI Libraries for system compilers
 # Download MPICH 3.2.1 - Separate download for multi-compiler builds
@@ -35,7 +37,7 @@ RUN . /opt/modules-4.0.0/init/sh && \
     mkdir /usr/local/src/mpich-3.2.1_${COMPILER_NAME}-${COMPILER_VER}_build && \
     cd /usr/local/src/mpich-3.2.1_${COMPILER_NAME}-${COMPILER_VER}_build && \
     /usr/local/src/mpich-3.2.1/configure --prefix=/opt/mpich-3.2.1_${COMPILER_NAME}-${COMPILER_VER} --enable-debuginfo && \
-    make -j 2 && \
+    make -j $(nproc) && \
     make install && \
     rm -rf /usr/local/src/mpich-3.2.1_${COMPILER_NAME}-${COMPILER_VER}_build
 # Compile MPICH 3.2.1 under gnu 7.2.0
@@ -44,7 +46,7 @@ RUN . /opt/modules-4.0.0/init/sh && \
     mkdir /usr/local/src/mpich-3.2.1_${COMPILER_NAME}-${COMPILER_VER}_build && \
     cd /usr/local/src/mpich-3.2.1_${COMPILER_NAME}-${COMPILER_VER}_build && \
     /usr/local/src/mpich-3.2.1/configure --prefix=/opt/mpich-3.2.1_${COMPILER_NAME}-${COMPILER_VER} --enable-debuginfo && \
-    make -j 2 && \
+    make -j $(nproc) && \
     make install && \
     rm -rf /usr/local/src/mpich-3.2.1_${COMPILER_NAME}-${COMPILER_VER}_build
 
@@ -56,7 +58,7 @@ RUN . /opt/modules-4.0.0/init/sh && \
     mkdir /usr/local/src/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER}_build && \
     cd /usr/local/src/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER}_build && \
     /usr/local/src/openmpi-3.0.0/configure --prefix=/opt/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER} && \
-    make -j 2 && \
+    make -j $(nproc) && \
     make install && \
     rm -rf /usr/local/src/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER}_build
 # Compile OpenMPI 3.0.0 under gnu 7.2.0
@@ -65,7 +67,7 @@ RUN . /opt/modules-4.0.0/init/sh && \
     mkdir /usr/local/src/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER}_build && \
     cd /usr/local/src/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER}_build && \
     /usr/local/src/openmpi-3.0.0/configure --prefix=/opt/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER} && \
-    make -j 2 && \
+    make -j $(nproc) && \
     make install && \
     rm -rf /usr/local/src/openmpi-3.0.0_${COMPILER_NAME}-${COMPILER_VER}_build
 
@@ -77,7 +79,7 @@ RUN . /opt/modules-4.0.0/init/sh && \
     mkdir /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build && \
     cd /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build && \
     /usr/local/src/openmpi-2.1.2/configure --prefix=/opt/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER} && \
-    make -j 2 && \
+    make -j $(nproc) && \
     make install && \
     rm -rf /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build
 # Compile OpenMPI 2.1.2 under gnu 5.4.0
@@ -86,6 +88,8 @@ RUN . /opt/modules-4.0.0/init/sh && \
     mkdir /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build && \
     cd /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build && \
     /usr/local/src/openmpi-2.1.2/configure --prefix=/opt/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER} && \
-    make -j 2 && \
+    make -j $(nproc) && \
     make install && \
     rm -rf /usr/local/src/openmpi-2.1.2_${COMPILER_NAME}-${COMPILER_VER}_build
+# Install MPI modules
+COPY modulefiles/mpi /opt/modulefiles/mpi
