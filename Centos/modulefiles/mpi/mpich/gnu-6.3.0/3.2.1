@@ -1,0 +1,32 @@
+#%Module
+
+module-whatis  "Load mpich-3.2.1_gnu-6.3.0"
+conflict mpi
+module load compilers/gnu/6.3.0
+
+set     mpi_dir                 /opt/mpich-3.2.1_gnu-6.3.0
+
+setenv  MPI_FULL_NAME           mpich-3.2.1_gnu-6.3.0
+setenv  MPI_NAME                mpich
+setenv  MPI_VER                 3.2.1
+setenv  MPI_INSTALL_PATH        ${mpi_dir}
+setenv  MPI_HOME                ${mpi_dir}
+setenv  MPIEXEC                 mpiexec
+setenv  MPICC                   mpicc
+setenv  MPICXX                  mpicxx
+setenv  MPIFORT                 mpifort
+setenv  MPIF90                  mpif90
+setenv  MPIF77                  mpif77
+setenv  MPI_EXEC                mpiexec
+setenv  MPI_CC                  mpicc
+setenv  MPI_CXX                 mpicxx
+setenv  MPI_FORT                mpifort
+setenv  MPI_F90                 mpif90
+setenv  MPI_F77                 mpif77
+setenv  MPIMODULE               true
+setenv  MPI_ROOT                ${mpi_dir}
+
+prepend-path    PATH            ${mpi_dir}/bin
+prepend-path    LIBRARY_PATH    ${mpi_dir}/lib
+prepend-path    LD_LIBRARY_PATH ${mpi_dir}/lib
+prepend-path    MANPATH         ${mpi_dir}/share/man

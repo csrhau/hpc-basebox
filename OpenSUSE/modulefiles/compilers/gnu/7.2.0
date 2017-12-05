@@ -1,0 +1,22 @@
+#%Module
+
+module-whatis   "Load GCC 7.2.0"
+conflict compilers
+
+set VERSION 7.2.0
+
+setenv GNU_VERSION $VERSION
+setenv GCC_VERSION $VERSION
+setenv GCC_PATH /opt/gcc-$VERSION
+
+setenv     COMPILER_NAME  gnu
+setenv     COMPILER_VER   $VERSION
+setenv     CC   gcc
+setenv     CXX  g++
+setenv     FC   gfortran
+setenv     F77  gfortran
+
+prepend-path LD_LIBRARY_PATH  /opt/gcc-$VERSION/lib64
+prepend-path PATH             /opt/gcc-$VERSION/bin
+prepend-path MANPATH          /opt/gcc-$VERSION/share/man
+prepend-path INFOPATH         /opt/gcc-$VERSION/share/info

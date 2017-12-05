@@ -1,0 +1,32 @@
+#%Module
+
+module-whatis  "Load openmpi-3.0.0_gnu-4.8.5"
+conflict mpi
+module load compilers/gnu/4.8.5-system
+
+set     mpi_dir                 /opt/openmpi-3.0.0_gnu-4.8.5
+
+setenv  MPI_FULL_NAME           openmpi-3.0.0_gnu-4.8.5
+setenv  MPI_NAME                openmpi
+setenv  MPI_VER                 3.0.0
+setenv  MPI_INSTALL_PATH        ${mpi_dir}
+setenv  MPI_HOME                ${mpi_dir}
+setenv  MPIEXEC                 mpiexec
+setenv  MPICC                   mpicc
+setenv  MPICXX                  mpicxx
+setenv  MPIFORT                 mpifort
+setenv  MPIF90                  mpif90
+setenv  MPIF77                  mpif77
+setenv  MPI_EXEC                mpiexec
+setenv  MPI_CC                  mpicc
+setenv  MPI_CXX                 mpicxx
+setenv  MPI_FORT                mpifort
+setenv  MPI_F90                 mpif90
+setenv  MPI_F77                 mpif77
+setenv  MPIMODULE               true
+setenv  MPI_ROOT                ${mpi_dir}
+
+prepend-path    PATH            ${mpi_dir}/bin
+prepend-path    LIBRARY_PATH    ${mpi_dir}/lib
+prepend-path    LD_LIBRARY_PATH ${mpi_dir}/lib
+prepend-path    MANPATH         ${mpi_dir}/share/man
